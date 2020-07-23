@@ -24,7 +24,7 @@ def left2(val, filename):
     font = ImageFont.truetype('Roboto-Bold.ttf', size=45)
     (x, y) = (184, 404)
     color = 'rgb(0, 0, 0)'                                   
-    val = round(val)
+#    val = round(val)
     val = str(val)
     draw.text((x,y), val, fill=color, font=font)
     image.save(filename)                                   
@@ -36,7 +36,7 @@ def left3(val, filename):
     font = ImageFont.truetype('Roboto-Bold.ttf', size=45)
     (x, y) = (184, 1040)
     color = 'rgb(0, 0, 0)'                                   
-    val = round(val)
+#    val = round(val)
     val = str(val)
     draw.text((x,y), val, fill=color, font=font)
     image.save(filename)                                   
@@ -48,7 +48,7 @@ def right2(val, filename):
     font = ImageFont.truetype('Roboto-Bold.ttf', size=45)
     (x, y) = (1270, 404)
     color = 'rgb(0, 0, 0)'                                   
-    val = round(val)
+#    val = round(val)
     val = str(val)
     draw.text((x,y), val, fill=color, font=font)
     image.save(filename)                                   
@@ -60,7 +60,7 @@ def right3(val, filename):
     font = ImageFont.truetype('Roboto-Bold.ttf', size=45)
     (x, y) = (1270, 1040)
     color = 'rgb(0, 0, 0)'                                   
-    val = round(val)
+#    val = round(val)
     val = str(val)
     draw.text((x,y), val, fill=color, font=font)
     image.save(filename)                                   
@@ -72,7 +72,7 @@ def top2(val, filename):
     font = ImageFont.truetype('Roboto-Bold.ttf', size=45)
     (x, y) = (724, 590)
     color = 'rgb(0, 0, 0)'                                   
-    val = round(val)
+#    val = round(val)
     val = str(val)
     draw.text((x,y), val, fill=color, font=font)
     image.save(filename)                                   
@@ -84,7 +84,7 @@ def top3(val, filename):
     font = ImageFont.truetype('Roboto-Bold.ttf', size=45)
     (x, y) = (724, 1040)
     color = 'rgb(0, 0, 0)'                                   
-    val = round(val)
+#    val = round(val)
     val = str(val)
     draw.text((x,y), val, fill=color, font=font)
     image.save(filename)                                   
@@ -96,7 +96,7 @@ def totalclose(val, filename):
     font = ImageFont.truetype('Roboto-Bold.ttf', size=45)
     (x, y) = (724, 295)
     color = 'rgb(0, 0, 0)'                                   
-    val = round(val)
+#    val = round(val)
     val = str(val)
     draw.text((x,y), val, fill=color, font=font)
     image.save(filename)                                   
@@ -110,6 +110,11 @@ def appendname(val):
     draw.text((x,y), val, fill=color, font=font)
     filename = val + ".jpg"
     image.save(filename)                                   
+
+def getfrac(df, i):
+    topval = df.iloc[i, 1]
+    bottomval = df.iloc[i, 2]
+    return topval, bottomval
 
 df = pd.read_csv("testData.csv", header=None, names=range(3))
 table_names = ["Left 2", "Total Close", "Top 2", "Right 2", "Top 3", "Left 3", "Right 3"]
@@ -126,13 +131,60 @@ totalc_df = df_create(tables["Total Close"])
 
 length = len(left2_df.index)
 
+#print(left2_df.iloc[6])
+#print()
+#print(left2_df['percent'].iloc[6])
+#print()
+#print(left2_df.iloc[6, 3])
+
+#val1, val2 = getfrac(left2_df, 6)
+#print(val1, val2)
+
 for i in range (0, length):
     name = left2_df['Player Name'].iloc[i]
     appendname(name)
-    left2(left2_df['percent'].iloc[i], name)
-    left3(left3_df['percent'].iloc[i], name)
-    top3(top3_df['percent'].iloc[i], name)
-    top2(top2_df['percent'].iloc[i], name)
-    right2(right2_df['percent'].iloc[i], name)
-    right3(right3_df['percent'].iloc[i], name)
-    totalclose(totalc_df['percent'].iloc[i], name)
+
+    val1, val2 = getfrac(left2_df, i)
+    left2_val = str(val1) + "/" + str(val2)
+
+    val1, val2 = getfrac(left3_df, i)
+    left3_val = str(val1) + "/" + str(val2)
+
+    val1, val2 = getfrac(top3_df, i)
+    top3_val = str(val1) + "/" + str(val2)
+
+    val1, val2 = getfrac(top2_df, i)
+    top2_val = str(val1) + "/" + str(val2)
+
+    val1, val2 = getfrac(right2_df, i)
+    right2_val = str(val1) + "/" + str(val2)
+
+    val1, val2 = getfrac(right3_df, i)
+    right3_val = str(val1) + "/" + str(val2)
+
+    val1, val2 = getfrac(totalc_df, i)
+    totalc_val = str(val1) + "/" + str(val2)
+
+    
+    left2(left2_val, name)
+    left3(left3_val, name)
+    top3(top3_val, name)
+    top2(top2_val, name)
+    right2(right2_val, name)
+    right3(right3_val, name)
+    totalclose(totalc_val, name)
+
+
+
+
+#    left2(left2_df['percent'].iloc[i], name)
+#    left3(left3_df['percent'].iloc[i], name)
+#    top3(top3_df['percent'].iloc[i], name)
+#    top2(top2_df['percent'].iloc[i], name)
+#    right2(right2_df['percent'].iloc[i], name)
+#    right3(right3_df['percent'].iloc[i], name)
+#    totalclose(totalc_df['percent'].iloc[i], name)
+
+
+
+
